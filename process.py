@@ -69,6 +69,11 @@ class Surgtoolloc_det(DetectionAlgorithm):
                 )
             ),
         )
+        
+        ###                                                                                                     ###
+        ###  TODO: adapt the following part for creating your model and loading weights
+        ###                                                                                                     ###
+        
         self.tool_list = ["needle_driver",
                           "monopolar_curved_scissor",
                           "force_bipolar",
@@ -108,38 +113,32 @@ class Surgtoolloc_det(DetectionAlgorithm):
         # return
         # Write resulting candidates to result.json for this case
         return scored_candidates
-        # return dict(type="Anything", tools=scored_candidates, version={"major": 1, "minor": 0})
 
     def save(self):
         with open(str(self._output_file), "w") as f:
             json.dump(self._case_results[0], f)
 
-    # def _load_input_image(self, *, case) -> Tuple[SimpleITK.Image, Path]:
-    #     input_image_file_path = case["path"]
-    #
-    #     input_image_file_loader = self._file_loaders["input_image"]
-    #     if not isinstance(input_image_file_loader, ImageLoader):
-    #         raise RuntimeError(
-    #             "The used FileLoader was not of subclass ImageLoader"
-    #         )
-    #
-    #     # Load the image for this case
-    #     input_image = input_image_file_loader.load_image(input_image_file_path)
-    #
-    #     # Check that it is the expected image
-    #     if input_image_file_loader.hash_image(input_image) != case["hash"]:
-    #         raise RuntimeError("Image hashes do not match")
-    #
-    #     return input_image, input_image_file_path
 
     def predict(self, fname) -> Dict:
+        """
+        Inputs:
+        fname -> video file path
+        
+        Output:
+        tools -> list of prediction dictionaries (per frame) in the correct format as described in documentation 
+        """
+        
         print('Video file to be loaded: ' + str(fname))
         cap = cv2.VideoCapture(str(fname))
         num_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
+        
+        ###                                                                     ###
+        ###  TODO: adapt the following part for YOUR submission: make prediction
+        ###                                                                     ###
+        
         print(num_frames)
 
-        # num_frames = 50
         # generate output json
         all_frames_predicted_outputs = []
         for i in range(num_frames):
@@ -147,54 +146,18 @@ class Surgtoolloc_det(DetectionAlgorithm):
             tool_detections = self.dummy_tool_detection_model_output()
 
             frame_dict['slice_nr'] = i
-            # "needle driver",
-            # "monopolar curved scissor",
-            frame_dict["needle_driver"] = True
-            frame_dict["monopolar_curved_scissor"] = True
-            # frame_dict[tool_detections[0]] = True
-            # frame_dict[tool_detections[1]] = True
+            
+            # predict same two tools everytime
+            frame_dict["grasping_retractor"] = True
+            frame_dict["vessel_sealer"] = True
 
             all_frames_predicted_outputs.append(frame_dict)
 
-        # type = {'type': 'Anything'}
-        # version = {"version": {"major": 1, "minor": 0}}
-        # tools = {'tools': all_frames_predicted_outputs}
+
         tools = all_frames_predicted_outputs
-
-
-        # output_dict = {**type, **tools, **version}
-
-        # print(output_dict)
 
         return tools
 
-
-
-        # for i in range(num_frames):
-        #     _, image_data = cap.read()
-        #     # Detection: Compute connected components of the maximum values
-        #     # in the input image and compute their center of mass
-        #     sample_mask = image_data >= np.max(image_data)
-        #     labels, num_labels = label(sample_mask)
-        #     candidates = center_of_mass(
-        #         input=sample_mask, labels=labels, index=np.arange(num_labels) + 1
-        #     )
-        #
-        #     # Scoring: Score each candidate cluster with the value at its center
-        #     candidate_scores = [
-        #         image_data[tuple(coord)]
-        #         for coord in np.array(candidates).astype(np.uint16)
-        #     ]
-        #
-        #     # Serialize candidates and scores as a list of dictionary entries
-        #     data = self._serialize_candidates(
-        #         candidates=candidates,
-        #         candidate_scores=candidate_scores,
-        #         ref_image=fname,
-        #     )
-        #
-        # # Convert serialized candidates to a pandas.DataFrame
-        # return DataFrame(data)
 
 
 if __name__ == "__main__":
