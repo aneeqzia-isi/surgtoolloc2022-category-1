@@ -15,9 +15,9 @@ Here are some useful documentation links for your submission process:
 
 You will need to have [Docker](https://docs.docker.com/) installed on your system. We recommend using Linux with a Docker installation. If you are on Windows, please use [WSL 2.0](https://docs.microsoft.com/en-us/windows/wsl/install).
 
-## Our two modalities
+## Prediction format
 
-You can choose to participate in one or both of our modalities: surgical tool classification and/or surgical tool detection, following the guidelines for the [SurgToolLoc Challenge](https://surgtoolloc.grand-challenge.org/). The instructions below are valid to generate both Docker containers.
+For category 1 of [SurgToolLoc Challenge](https://surgtoolloc.grand-challenge.org/) (surgical tool classification) the instructions to generate the Docker container are given below
 
 ### Category #1 – Surgical tool classification:  
 
@@ -62,60 +62,31 @@ The output json file needs to be a list of dictionaries, containing information 
 ```
  where slice_nr is the frame number. 
 
-### Category #2 – Surgical tool classification and localization:  
-
-The output json file needs to be a dictionary containing the set of tools detected in each frame with its correspondent bounding box corners (x, y), again generating a single json file for each video like given below:  
-```
-{ 
-    "type": "Multiple 2D bounding boxes", 
-    "boxes": [ 
-        { 
-        "corners": [ 
-            [ 92.66666412353516, 136.06668090820312, 0.50], 
-            [ 54.79999923706055, 136.06668090820312, 0.5], 
-            [ 54.79999923706055, 95.53333282470703, 0.5], 
-            [ 92.66666412353516, 95.53333282470703, 0.5] 
-        ], 
-        "name": "slice_nr_1_needle_driver" 
-        }, 
-        { 
-        "corners": [ 
-            [ 92.66666412353516, 136.06668090820312, 0.5], 
-            [ 54.79999923706055, 136.06668090820312, 0.5], 
-            [ 54.79999923706055, 95.53333282470703, 0.5], 
-            [ 92.66666412353516, 95.53333282470703, 0.5] 
-        ], 
-        "name": "slice_nr_2_monopolar_curved_scissor" 
-        } 
-    ], 
-    "version": { "major": 1, "minor": 0 } 
-} 
-```
- Please note that the third value of each corner coordinate is not necessary for predictions but must be kept 0.5 always to comply with the Grand Challenge automated evaluation system (which was built to also consider datasets of 3D images). To standardize the submissions, the first corner is intended to be the top left corner of the bounding box, with the subsequent corners following the clockwise direction. The “type” and “version” entries are to comply with grand-challenge automated evaluation system. 
 
 ## Adapting the container to your algorithm
 
 1. First, clone this repository:
 
 ```
-git clone https://github.com/DeepPathology/MIDOG_reference_docker
+git clone https://github.com/aneeqzia-isi/surgtoolloc2022-category-1.git
 ```
 
 2. Our `Dockerfile` should have everything you need, but you may change it to another base image/add your algorithm requirements if your algorithm requires it:
 
 ![Alt text](README_files/dockerfile_instructions.png?raw=true "Flow")
 
-3. Edit `process.py`, which contains both functions for classification and prediction.
+3. Edit `process.py` - this is the main step for adapting this repo for your model. This script will load your model and corresponding weights, perform inference on input videos one by one along with any required pre/post-processing, and return the predictions of surgical tool classification as a dictionary. The class Surgtoolloc_det contains the predict function. You should replace the dummy code in this function with the code for your inference algorihm. Use `__init__` to load your weights and/or perform any needed operation.
 
-    a. The class Surgtoolloc_det contains the predict function. You should replace the dummy code in this function with the code for your inference algorihm. Use `__init__` to load your weights and/or perform any needed operation.
+4. Run `build.sh`  to build the container. 
 
-4. Run `test.sh`  to build the container. You should see an output of this kind at the end of its execution:
+5. In order to do local testing, you can edit and run `test.sh`. You will probably need to modify the script and parts of `process.py` to adapt for your local testing. You can expect to see an output of this kind at the end of its execution:
     ```
       Video file to be loaded: /input/video_1.mp4
       *** output of the generated json printed here ***
     ```
-    
-5. Run `export.sh`. This script will will produce `surgtoolloc_trial.tar.gz`. This is the file to be used when uploading the algorithm to Grand Challenge.
+PLEASE NOTE: You will need to change the variable `execute_in_docker` to False while running directly locally. But will need to switch it back once you are done testing, as the paths where data is kept and outputs are saved are modified based on this boolean.
+
+5. Run `export.sh`. This script will will produce `surgtoolloc_trial.tar.gz` (you can change the name of your container by modifying the script). This is the file to be used when uploading the algorithm to Grand Challenge.
 
 ## Uploading your container to the MICCAI platform
 
@@ -125,13 +96,13 @@ git clone https://github.com/DeepPathology/MIDOG_reference_docker
 
 3. After the Docker container is marked as `Ready`, you can try out your own algorithm when clicking `Try-out Algorithm` on the page of your algorithm, again in the left menu.
 
-4. Now, we will make a submission to one of the test phases. Go to the [SurgToolLoc Challenge](https://surgtoolloc.grand-challenge.org/) and click `Submit`. Choose which method you want to submit (classification and/or detection) and fill out the form. Under `Algorithm`, choose the algorithm that you just created. Then hit `Save`. After the processing in the backend is done, your submission should show up on the leaderboard.
+4. Now, we will make a submission to one of the test phases. Go to the [SurgToolLoc Challenge](https://surgtoolloc.grand-challenge.org/) and click `Submit`. Under `Algorithm`, choose the algorithm that you just created. Then hit `Save`. After the processing in the backend is done, your submission should show up on the leaderboard if there are no errors.
 
 The figure below indicates the step-by-step of how to upload a container:
 
 ![Alt text](README_files/MICCAI_surgtoolloc_fig.png?raw=true "Flow")
 
-If something does not work for you, please do not hesitate to [contact us](mailto:isi.challenges@intusurg.com) or [add a post in the forum](https://grand-challenge.org/forums/forum/endoscopic-surgical-tool-localization-using-tool-presence-labels-663/). If the problem is related to the code of this repository, please create a new issue on GitHub.
+If something does not work for you, please do not hesitate to [contact us](mailto:isi.challenges@intusurg.com) or [add a post in the forum](https://grand-challenge.org/forums/forum/endoscopic-surgical-tool-localization-using-tool-presence-labels-663/). 
 
 ## Acknowledgments
 
