@@ -79,12 +79,8 @@ git clone https://github.com/aneeqzia-isi/surgtoolloc2022-category-1.git
 
 4. Run `build.sh`  to build the container. 
 
-5. In order to do local testing, you can edit and run `test.sh`. You will probably need to modify the script and parts of `process.py` to adapt for your local testing. You can expect to see an output of this kind at the end of its execution:
-    ```
-      Video file to be loaded: /input/video_1.mp4
-      *** output of the generated json printed here ***
-    ```
- PLEASE NOTE: You will need to change the variable `execute_in_docker` to False while running directly locally. But will need to switch it back once you   are done testing, as the paths where data is kept and outputs are saved are modified based on this boolean.
+5. In order to do local testing, you can edit and run `test.sh`. You will probably need to modify the script and parts of `process.py` to adapt for your local testing. The main thing that you can check is whether the output json being produced by your algorithm container at ./output/surgical-tool-presence.json is similar to the sample json present in the main folder (also names surgical-tool-presence.json).
+ PLEASE NOTE: You will need to change the variable `execute_in_docker` to False while running directly locally. But will need to switch it back once you   are done testing, as the paths where data is kept and outputs are saved are modified based on this boolean. Be aware that the output of running test.sh, of course, initially may not be equal to the sample predictions we put there for our testing. Feel free to modify the test.sh based on your needs.
 
 5. Run `export.sh`. This script will will produce `surgtoolloc_trial.tar.gz` (you can change the name of your container by modifying the script). This is the file to be used when uploading the algorithm to Grand Challenge.
 
