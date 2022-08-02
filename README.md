@@ -84,7 +84,7 @@ git clone https://github.com/aneeqzia-isi/surgtoolloc2022-category-1.git
       Video file to be loaded: /input/video_1.mp4
       *** output of the generated json printed here ***
     ```
-PLEASE NOTE: You will need to change the variable `execute_in_docker` to False while running directly locally. But will need to switch it back once you are done testing, as the paths where data is kept and outputs are saved are modified based on this boolean.
+ PLEASE NOTE: You will need to change the variable `execute_in_docker` to False while running directly locally. But will need to switch it back once you   are done testing, as the paths where data is kept and outputs are saved are modified based on this boolean.
 
 5. Run `export.sh`. This script will will produce `surgtoolloc_trial.tar.gz` (you can change the name of your container by modifying the script). This is the file to be used when uploading the algorithm to Grand Challenge.
 
