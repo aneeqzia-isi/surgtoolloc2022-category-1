@@ -84,7 +84,7 @@ git clone https://github.com/aneeqzia-isi/surgtoolloc2022-category-1.git
 
 5. Run `export.sh`. This script will will produce `surgtoolloc_trial.tar.gz` (you can change the name of your container by modifying the script). This is the file to be used when uploading the algorithm to Grand Challenge.
 
-## Uploading your container to the MICCAI platform
+## Uploading your container to the grand-challenge platform
 
 1. Create a new algorithm [here](https://grand-challenge.org/algorithms/create/). Fill in the fields as specified on the form.
 
