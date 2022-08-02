@@ -132,3 +132,8 @@ The figure below indicates the step-by-step of how to upload a container:
 ![Alt text](README_files/MICCAI_surgtoolloc_fig.png?raw=true "Flow")
 
 If something does not work for you, please do not hesitate to [contact us](mailto:isi.challenges@intusurg.com) or [add a post in the forum](https://grand-challenge.org/forums/forum/endoscopic-surgical-tool-localization-using-tool-presence-labels-663/). If the problem is related to the code of this repository, please create a new issue on GitHub.
+
+## Acknowledgments
+
+The repository is greatly inspired and adapted from [MIDOG reference algorithm](https://github.com/DeepPathology/MIDOG_reference_docker), [AIROGS reference algorithm](https://github.com/qurAI-amsterdam/airogs-example-algorithm) and [SLCN reference algorithm](https://github.com/metrics-lab/SLCN_challenge)
+
