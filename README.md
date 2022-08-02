@@ -1,9 +1,9 @@
 # Docker image & algorithm submission for Category 1 of SurgToolLoc Challenge 2022
 
-This repository has everything you and your team need to make an algorithm submission for the [SurgToolLoc Challenge](https://surgtoolloc.grand-challenge.org/). This algorithm will be used for the inference and evaluation of your model.
+This repository has everything you and your team need to make an algorithm submission for the [SurgToolLoc Challenge](https://surgtoolloc.grand-challenge.org/) Category 1.
 
 Be sure that you have a verified account on Grand Challenge and are accepted as a participant in the SurgToolLoc challenge.
-You should be able to submit your Docker container/algorithm [here](https://grand-challenge.org/algorithms/create/).
+You should be able to submit your Docker container/algorithm on the challenge website when the submission opens.
 
 Here are some useful documentation links for your submission process:
 - [Tutorial on how to make an algorithm container on Grand Challenge](https://grand-challenge.org/blogs/create-an-algorithm/)
