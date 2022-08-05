@@ -16,8 +16,10 @@ import random
 from typing import Dict
 import json
 
+####
+# Toggle the variable below to debug locally. The final container would need to have execute_in_docker=True
+####
 execute_in_docker = True
-
 
 class VideoLoader():
     def load(self, *, fname):
